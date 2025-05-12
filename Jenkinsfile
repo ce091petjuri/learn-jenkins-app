@@ -1,7 +1,7 @@
 pipeline {
     agent any
     stages {
-        /*stage('Build') {
+        stage('Build') {
             
             steps {
                 sh '''
@@ -13,7 +13,7 @@ pipeline {
                     ls -la
                 '''
             }
-        }*/
+        }
         stage('Run Tests') {
             parallel {
                 stage('Unit tests') {
