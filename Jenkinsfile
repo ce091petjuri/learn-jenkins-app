@@ -7,7 +7,7 @@ pipeline {
             }
 
     stages {
-        stage('Build') {
+        /*stage('Build') {
             
             steps {
                 sh '''
@@ -19,13 +19,30 @@ pipeline {
                     ls -la
                 '''
             }
-        }
+        }*/
         stage('Test') {
             steps {
                 sh '''
                     echo 'Test Stage'
                     test -f build/index.html
                     npm test
+                '''
+            }
+            
+        }
+        stage('E2ETest') {
+            agent {
+                docker {
+                    image 'mcr.microsoft.com/playwright:v1.39.0-jammy'
+                    reuseNode true
+                    args ''
+                }
+            }
+            steps {
+                sh '''
+                    npm install -g serve
+                    node_modules\.bin\serve -s build
+                    npx playwright test
                 '''
             }
             
